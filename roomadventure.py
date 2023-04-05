@@ -103,36 +103,136 @@ class Game(Frame):
         r4.add_item("croissant", "made of butter. No flour.")
         
         #add grabs to rooms
+        r1.add_grabs("key")
         
+        r2.add_grabs("fire")
         
+        r3.add_grabs("doug")
+        
+        r4.add_grabs("butter")
         #set current room to the starting room
+
+        self.current_room = r1 
         
         
-        pass
-    
     def setup_gui(self):
-        pass
+        #input element
+        self.player_input = Entry(self, bg="white", fg="black")
+        self.player_input.bind("<Return>", self.process)
+        self.player_input.pack(side=BOTTOM, fill=X)
+        self.player_input.focus()
+        
+        #image container and default image
+        img = None  #represents actual image
+        self.image_container = Label(self, width = Game.WIDTH // 2, image = img)
+        self.image_container.image = img
+        self.image_container.pack(side=LEFT,fill=Y)
+        self.image_container.pack_propagate(False)  #prevent the image from modifying the size of the container that it is in
+        
+        #container for text
+        text_container = Frame(self, width=Game.WIDTH //2)
+        self.text = Text(text_container, bg="lightgrey", fg="black", state=DISABLED)
+        self.text.pack(fill=Y, expand =1)
+        text_container.pack(side=RIGHT, fill=Y)
+        text_container.pack_propagate(False)
+        
     
     def set_room_image(self):
-        pass
+        if self.current_room ==None:
+            img = PhotoImage(file="skull.gif")
+        else:
+            img = PhotoImage(file=self.current_room.image)
+            
+        self.image_container.config(image=img)
+        self.image_container.image = img 
     
-    def set_status(self):
-        pass
+    def set_status(self, status):
+        self.text.config(state=NORMAL)  #makes it editable
+        self.text.delete(1.0, END)  #yes 1.0 for text. It is 0 for entry elemnts
+        
+        if self.current_room == None:
+            self.text.insert(END, Game.STATUS_DEAD)
+        else:
+            content = f"{self.current_room}\nYou are carrying: {self.inventory}\n\n{status}"
+            self.text.insert(END, content)
+            
+        self.text.config(state = DISABLED)
     
     def clear_entry(self):
-        pass
+        self.player_input.delete(0,END)
     
-    def handle_go(self):
-        pass
+    def handle_go(self, destination):
+        status = Game.STATUS_BAD_EXIT
+        
+        if destination in self.current_room.exits:
+            self.current_room = self.current_room.exits[destination]
+            status = Game.STATUS_ROOM_CHANGE
+            
+        self.set_status(status)
+        self.set_room_image()
     
-    def handle_look(self):
-        pass
+    def handle_look(self, item):
+        status = Game.STATUS_BAD_ITEM
+        
+        if item in self.current_room.items:
+            status = self.current_room.items[item]
+            
+        self.set_status(status)
     
-    def handle_take(self):
-        pass
+    def handle_take(self, grab):
+        status = Game.STATUS_BAD_GRABS
+        
+        if grab in self.current_room.grabs:
+            self.inventory.append(grab)
+            self.current_room.del_grabs(grab)
+            status = Game.STATUS_GRABBED
+            
+        self.set_status(status)
     
     def play(self):
-        pass
+        self.setup_game()
+        self.setup_gui()
+        self.set_room_image()
+        self.set_status("")
     
     def process(self, event):
-        pass
+        action = self.player_input.get()
+        action = action.lower() #lowercase
+        
+        if action in Game.EXIT_ACTIONS:
+            exit()
+            
+        if self.current_room == None:
+            self.clear_entry()
+            return 
+    
+        words = action.split()
+        
+        if len(words) !=2:
+            self.set_status(Game.STATUS_DEFAULT)
+            return
+        
+        self.clear_entry()
+        
+        verb = words[0]
+        noun = words[1]
+        
+        match verb:
+            case "go":
+                self.handle_go(destination = noun)
+                
+            case "look":
+                self.handle_look(item = noun)
+                
+            case "take":
+                self.handle_take(grab = noun)
+                
+            #default case: case_:
+            
+       
+#main loop 
+window = Tk()
+window.title("Room Adventure.... REVOLUTIONS")
+game = Game(window)
+game.play()
+window.mainloop()
