@@ -34,6 +34,7 @@ class Game(Frame):
         r2 = Room("Room 2", "room2.gif")
         r3 = Room("Room 3", "room3.gif")
         r4 = Room("Room 4", "room4.gif")
+        basement = Room("Basement", "basement_pic.gif")
         
         #add exits
         r1.add_exit("east", r2)
@@ -44,6 +45,7 @@ class Game(Frame):
         
         r3.add_exit("north", r1)
         r3.add_exit("east", r4)
+        r3.add_exit("basement", basement)
         
         r4.add_exit("north",r2)
         r4.add_exit("west", r3)
