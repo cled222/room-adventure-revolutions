@@ -2,6 +2,17 @@
 #Date: datetime.now()
 #Description: Room Adventure Revolutions
 
+#Improvements
+#Caiden-
+#1. Split game class and room class into two seperate files(creating an item class within the room class)
+#2. added the basement (extra room)
+#3. added the use verb and winning graphic when you use the right item to escape
+
+#Julia
+#1. Added items and grabbables (most important being the rope which is used to escape)
+#2. Added the escape method exit (window)
+#3. Added a throw function (gets rid of item from your inventory)
+
 
 from tkinter import *
 from Roomclass import *
