@@ -52,6 +52,7 @@ class Game(Frame):
         r4.add_exit("south", None)  #death
 
         basement.add_exit("up", r3)
+        basement.add_exit("window", None) #live!
         
         #add items
         r1.add_item(chair.name, chair.description)
@@ -176,6 +177,7 @@ class Game(Frame):
         if self.current_room == None:
             self.clear_entry()
             return 
+        
     
         words = action.split()
         
