@@ -61,6 +61,11 @@ class Game(Frame):
         r3.add_item(chair.name, chair.description)
         
         r4.add_item(croissant.name, croissant.description)
+        r4.add_item(your_mother.name, your_mother.description)
+        r4.add_item(pbj.name, pbj.description)
+
+        r5.add_item(potato.name, potato.description)
+        r5.add_windows(windows.name, windows.description)
         
         #add grabs to rooms
         r1.add_grabs("key")
@@ -70,6 +75,8 @@ class Game(Frame):
         r3.add_grabs("doug")
         
         r4.add_grabs("butter")
+
+        r5.add_grabs("rope") #new
         #set current room to the starting room
 
         self.current_room = r1 
