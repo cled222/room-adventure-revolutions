@@ -67,7 +67,7 @@ class Game(Frame):
         r4.add_item(pbj.name, pbj.description)
 
         basement.add_item(potato.name, potato.description)
-        basement.add_windows(windows.name, windows.description)
+        basement.add_item(windows.name, windows.description)
         
         #add grabs to rooms
         r1.add_grabs("key")
