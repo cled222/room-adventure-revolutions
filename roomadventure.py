@@ -3,48 +3,7 @@
 #Description: Room Adventure Revolutions
 
 from tkinter import *
-
-class Room:
-    """A Room has a name and a filepath that points to a .gif image"""
-    
-    def __init__(self, name:str, image_filepath:str) -> None:
-        self.name = name
-        self.image = image_filepath
-        self.exits = {}
-        self.items = {}
-        self.grabs = []
-        
-        
-
-    def add_exit(self, label:str, room:'Room'):
-        self.exits[label] = room
-        
-    def add_item(self, label:str, desc:str):
-        self.items[label] = desc
-        
-    def add_grabs(self, label:str):
-        self.grabs.append(label)
-        
-    def del_grabs(self, label:str):
-        self.grabs.remove(label)
-        
-    def __str__(self) -> str:
-        result = f"You are in {self.name}\n"
-        
-        result+= "You see: "
-        
-        for item in self.items.keys():
-            result += item + " "
-        result += "\n"
-        
-        result += "Exits: "
-        for exit in self.exits.keys():
-            result += exit + " "
-        result += "\n"
-        
-        return result
-        
-
+from Roomclass import *
 
 class Game(Frame):
     
@@ -90,17 +49,17 @@ class Game(Frame):
         r4.add_exit("south", None)  #death
         
         #add items
-        r1.add_item("chair", "something about wicker and legs")
-        r1.add_item("bigger chair", "more wicker and more legs")
+        r1.add_item(chair.name, chair.description)
+        r1.add_item(bigger_chair.name, bigger_chair.description)
         
-        r2.add_item("fireplace", "made of fire. grab the fire.")
-        r2.add_item("more_chairs", "anothe chair named more")
+        r2.add_item(fireplace.name, fireplace.description)
+        r2.add_item(more_chairs.name, more_chairs.description)
         
-        r3.add_item("desk","It is made of wicker also")
-        r3.add_item("dimsdale_dimmadome", "Owned by Doug zDimmadome, owner of Dimsdale Dimmadome.")
-        r3.add_item("chair", "the og chair")
+        r3.add_item(desk.name, desk.description)
+        r3.add_item(dimsdale_dimmadome.name, dimsdale_dimmadome.description)
+        r3.add_item(chair.name, chair.description)
         
-        r4.add_item("croissant", "made of butter. No flour.")
+        r4.add_item(croissant.name, croissant.description)
         
         #add grabs to rooms
         r1.add_grabs("key")
