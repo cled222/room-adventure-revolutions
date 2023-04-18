@@ -2,6 +2,9 @@
 #Date: datetime.now()
 #Description: Room Adventure Revolutions
 
+# can add an extra room, maybe a painting which is a secret exit to the game
+# can also add a 
+
 from tkinter import *
 from Roomclass import *
 
