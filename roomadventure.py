@@ -49,7 +49,6 @@ class Game(Frame):
         
         r4.add_exit("north",r2)
         r4.add_exit("west", r3)
-        r4.add_exit("south", None)  #death
 
         basement.add_exit("up", r3)
         basement.add_exit("window", None) #live!
