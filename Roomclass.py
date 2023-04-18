@@ -58,3 +58,9 @@ chair = Item("chair", "the og chair")
 
 #room 4
 croissant = Item("croissant", "made of butter. No flour.")
+your_mother = Item("your_mother", "ur mom haha")
+pbj = Item("pbj", "blech peanut butter is disgusting... nutella >>>>")
+
+#room 5
+potato = Item("potato", "POTATOOOOOOOOOOOOOOOOOOOOO")
+windows = Item("windows", "wow look!! windows!! is that... daylight?!?! imagine being outside... *cough cough*")

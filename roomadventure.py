@@ -49,7 +49,9 @@ class Game(Frame):
         
         r4.add_exit("north",r2)
         r4.add_exit("west", r3)
-        r4.add_exit("south", None)  #death
+
+        basement.add_exit("up", r3)
+        basement.add_exit("window", None) #live!
         
         #add items
         r1.add_item(chair.name, chair.description)
@@ -63,6 +65,11 @@ class Game(Frame):
         r3.add_item(chair.name, chair.description)
         
         r4.add_item(croissant.name, croissant.description)
+        r4.add_item(your_mother.name, your_mother.description)
+        r4.add_item(pbj.name, pbj.description)
+
+        basement.add_item(potato.name, potato.description)
+        basement.add_item(windows.name, windows.description)
         
         #add grabs to rooms
         r1.add_grabs("key")
@@ -72,6 +79,8 @@ class Game(Frame):
         r3.add_grabs("doug")
         
         r4.add_grabs("butter")
+
+        basement.add_grabs("rope") #new
         #set current room to the starting room
 
         self.current_room = r1 
@@ -167,6 +176,7 @@ class Game(Frame):
         if self.current_room == None:
             self.clear_entry()
             return 
+        
     
         words = action.split()
         
