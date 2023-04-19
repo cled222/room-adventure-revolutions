@@ -1,3 +1,4 @@
+#added this new file in order to split up the actual game file with the room and item properties
 class Room:
     """A Room has a name and a filepath that points to a .gif image"""
     
@@ -37,7 +38,7 @@ class Room:
         result += "\n"
         
         return result
-    
+#the Item class takes care of the name and descriptions of the items to be imported into the game class 
 class Item:
     def __init__(self, name, description) -> None:
         self.name = name
