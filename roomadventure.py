@@ -67,8 +67,8 @@ class Game(Frame):
         self.r4.add_exit("north", self.r2)
         self.r4.add_exit("west", self.r3)
 
-        self.basement.add_exit("up", self.r3)
-        self.basement.add_exit("window", None) #live!
+        self.basement.add_exit("up", self.r3) #new, adds another exit
+        self.basement.add_exit("window", None) #new, allows to live!
         
         #add items
         #item name and descriptions now call upon the item class in the Roomclass file
@@ -83,11 +83,11 @@ class Game(Frame):
         self.r3.add_item(chair.name, chair.description)
         
         self.r4.add_item(croissant.name, croissant.description)
-        self.r4.add_item(your_mother.name, your_mother.description)
-        self.r4.add_item(pbj.name, pbj.description)
+        self.r4.add_item(your_mother.name, your_mother.description) #new
+        self.r4.add_item(pbj.name, pbj.description) #new (I'm allergic to PBJ :) )
 
-        self.basement.add_item(potato.name, potato.description)
-        self.basement.add_item(windows.name, windows.description)
+        self.basement.add_item(potato.name, potato.description) #new
+        self.basement.add_item(windows.name, windows.description) #new
         
         #add grabs to rooms
         self.r1.add_grabs("key")
@@ -198,6 +198,8 @@ class Game(Frame):
         self.set_status(status)
         #self.set_room_image()
 
+    #new, sets the general message to an error unless a grab is in the inventory, 
+    #in which it puts the grab form the inventory into the current room 
     def handle_throw(self, grab):
         status = Game.STATUS_BAD_THROW
         
@@ -251,6 +253,7 @@ class Game(Frame):
             case "use":
                 self.handle_use(item = noun)    #added to handle the match verb when use is called upon
 
+            #new, allows for the user to command "throw"
             case "throw":
                 self.handle_throw(grab = noun)
                 
