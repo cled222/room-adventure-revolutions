@@ -2,49 +2,20 @@
 #Date: datetime.now()
 #Description: Room Adventure Revolutions
 
+#Improvements
+#Caiden-
+#1. Split game class and room class into two seperate files(creating an item class within the room class)
+#2. added the basement (extra room)
+#3. added the use verb and winning graphic when you use the right item to escape
+
+#Julia
+#1. Added items and grabbables (most important being the rope which is used to escape)
+#2. Added the escape method exit (window)
+#3. Added a throw function (gets rid of item from your inventory)
+
+
 from tkinter import *
-
-class Room:
-    """A Room has a name and a filepath that points to a .gif image"""
-    
-    def __init__(self, name:str, image_filepath:str) -> None:
-        self.name = name
-        self.image = image_filepath
-        self.exits = {}
-        self.items = {}
-        self.grabs = []
-        
-        
-
-    def add_exit(self, label:str, room:'Room'):
-        self.exits[label] = room
-        
-    def add_item(self, label:str, desc:str):
-        self.items[label] = desc
-        
-    def add_grabs(self, label:str):
-        self.grabs.append(label)
-        
-    def del_grabs(self, label:str):
-        self.grabs.remove(label)
-        
-    def __str__(self) -> str:
-        result = f"You are in {self.name}\n"
-        
-        result+= "You see: "
-        
-        for item in self.items.keys():
-            result += item + " "
-        result += "\n"
-        
-        result += "Exits: "
-        for exit in self.exits.keys():
-            result += exit + " "
-        result += "\n"
-        
-        return result
-        
-
+from Roomclass import *
 
 class Game(Frame):
     
@@ -56,63 +27,79 @@ class Game(Frame):
     STATUS_BAD_EXIT = "Invalid Exit."
     STATUS_ROOM_CHANGE = "Room Changed"
     STATUS_GRABBED = "Item Grabbed."
+    STATUS_USED = "Item used."
     STATUS_BAD_GRABS = "I can't grab that."
     STATUS_BAD_ITEM = "I don't see that."
+    STATUS_BAD_USE = "I can't use that."
     
     WIDTH = 800
     HEIGHT = 600
     
     def __init__(self, parent) -> None:
         self.inventory = []
+        self.rooms = []
+        self.setup_game()
         Frame.__init__(self,parent)
         self.pack(fill=BOTH, expand=1)
     
     def setup_game(self):
         
         #create rooms
-        r1 = Room("Room 1", "room1.gif")
-        r2 = Room("Room 2", "room2.gif")
-        r3 = Room("Room 3", "room3.gif")
-        r4 = Room("Room 4", "room4.gif")
+        self.r1 = Room("Room 1", "room1.gif")
+        self.r2 = Room("Room 2", "room2.gif")
+        self.r3 = Room("Room 3", "room3.gif")
+        self.r4 = Room("Room 4", "room4.gif")
+        self.basement = Room("Basement", "basement_pic.gif")
+        self.rooms = [self.r1, self.r2, self.r3, self.r4, self.basement]
         
         #add exits
-        r1.add_exit("east", r2)
-        r1.add_exit("south", r3)
+        self.r1.add_exit("east", self.r2)
+        self.r1.add_exit("south", self.r3)
         
-        r2.add_exit("west", r1)
-        r2.add_exit("south", r4)
+        self.r2.add_exit("west", self.r1)
+        self.r2.add_exit("south", self.r4)
         
-        r3.add_exit("north", r1)
-        r3.add_exit("east", r4)
+        self.r3.add_exit("north", self.r1)
+        self.r3.add_exit("east", self.r4)
+        self.r3.add_exit("basement", self.basement)
         
-        r4.add_exit("north",r2)
-        r4.add_exit("west", r3)
-        r4.add_exit("south", None)  #death
+        self.r4.add_exit("north", self.r2)
+        self.r4.add_exit("west", self.r3)
+
+        self.basement.add_exit("up", self.r3)
+        self.basement.add_exit("window", None) #live!
         
         #add items
-        r1.add_item("chair", "something about wicker and legs")
-        r1.add_item("bigger chair", "more wicker and more legs")
+        self.r1.add_item(chair.name, chair.description)
+        self.r1.add_item(bigger_chair.name, bigger_chair.description)
         
-        r2.add_item("fireplace", "made of fire. grab the fire.")
-        r2.add_item("more_chairs", "anothe chair named more")
+        self.r2.add_item(fireplace.name, fireplace.description)
+        self.r2.add_item(more_chairs.name, more_chairs.description)
         
-        r3.add_item("desk","It is made of wicker also")
-        r3.add_item("dimsdale_dimmadome", "Owned by Doug zDimmadome, owner of Dimsdale Dimmadome.")
-        r3.add_item("chair", "the og chair")
+        self.r3.add_item(desk.name, desk.description)
+        self.r3.add_item(dimsdale_dimmadome.name, dimsdale_dimmadome.description)
+        self.r3.add_item(chair.name, chair.description)
         
-        r4.add_item("croissant", "made of butter. No flour.")
+        self.r4.add_item(croissant.name, croissant.description)
+        self.r4.add_item(your_mother.name, your_mother.description)
+        self.r4.add_item(pbj.name, pbj.description)
+
+        self.basement.add_item(potato.name, potato.description)
+        self.basement.add_item(windows.name, windows.description)
         
         #add grabs to rooms
-        r1.add_grabs("key")
+        self.r1.add_grabs("key")
         
-        r2.add_grabs("fire")
+        self.r2.add_grabs("fire")
         
-        r3.add_grabs("doug")
+        self.r3.add_grabs("doug")
         
-        r4.add_grabs("butter")
+        self.r4.add_grabs("butter")
+
+        self.basement.add_grabs("rope") #new
         #set current room to the starting room
 
-        self.current_room = r1 
+        self.current_room = self.r1 
         
         
     def setup_gui(self):
@@ -143,6 +130,11 @@ class Game(Frame):
         else:
             img = PhotoImage(file=self.current_room.image)
             
+        self.image_container.config(image=img)
+        self.image_container.image = img 
+        
+    def winner(self, image):
+        img = PhotoImage(file = image)
         self.image_container.config(image=img)
         self.image_container.image = img 
     
@@ -188,6 +180,18 @@ class Game(Frame):
             status = Game.STATUS_GRABBED
             
         self.set_status(status)
+            
+    def handle_use(self, item):
+        status = Game.STATUS_BAD_USE
+        
+        if item in self.inventory:
+            self.inventory.remove(item)
+            status = Game.STATUS_USED
+        if item == "rope" and self.current_room == self.basement:
+                    self.winner("winner.gif")
+            
+        self.set_status(status)
+        #self.set_room_image()
     
     def play(self):
         self.setup_game()
@@ -205,6 +209,7 @@ class Game(Frame):
         if self.current_room == None:
             self.clear_entry()
             return 
+        
     
         words = action.split()
         
@@ -226,6 +231,9 @@ class Game(Frame):
                 
             case "take":
                 self.handle_take(grab = noun)
+            
+            case "use":
+                self.handle_use(item = noun)
                 
             #default case: case_:
             
