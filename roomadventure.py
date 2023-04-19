@@ -28,9 +28,11 @@ class Game(Frame):
     STATUS_ROOM_CHANGE = "Room Changed"
     STATUS_GRABBED = "Item Grabbed."
     STATUS_USED = "Item used."
+    STATUS_THROW = "Item thrown."
     STATUS_BAD_GRABS = "I can't grab that."
     STATUS_BAD_ITEM = "I don't see that."
     STATUS_BAD_USE = "I can't use that."
+    STATUS_BAD_THROW = "I can't throw that."
     
     WIDTH = 800
     HEIGHT = 600
@@ -97,8 +99,9 @@ class Game(Frame):
         self.r4.add_grabs("butter")
 
         self.basement.add_grabs("rope") #new
-        #set current room to the starting room
 
+
+        #set current room to the starting room
         self.current_room = self.r1 
         
         
@@ -192,6 +195,17 @@ class Game(Frame):
             
         self.set_status(status)
         #self.set_room_image()
+
+    def handle_throw(self, grab):
+        status = Game.STATUS_BAD_THROW
+        
+        if grab in self.inventory:
+            self.inventory.remove(grab)
+            self.current_room.add_grabs(grab)
+            status = Game.STATUS_THROW
+            
+        self.set_status(status)
+    
     
     def play(self):
         self.setup_game()
@@ -234,6 +248,9 @@ class Game(Frame):
             
             case "use":
                 self.handle_use(item = noun)
+
+            case "throw":
+                self.handle_throw(grab = noun)
                 
             #default case: case_:
             
