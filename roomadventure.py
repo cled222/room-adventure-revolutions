@@ -1,18 +1,3 @@
-#Name: Caiden Ledet and Julia Wilson
-#Date: datetime.now()
-#Description: Room Adventure Revolutions
-
-#Improvements
-#Caiden-
-#1. Split game class and room class into two seperate files(creating an item class within the room class)
-#2. added the basement (extra room)
-#3. added the use verb and winning graphic when you use the right item to escape
-
-#Julia
-#1. Added items and grabbables (most important being the rope which is used to escape)
-#2. Added the escape method exit (window)
-#3. Added a throw function (gets rid of item from your inventory)
-
 
 from tkinter import *
 from Roomclass import *
@@ -27,11 +12,11 @@ class Game(Frame):
     STATUS_BAD_EXIT = "Invalid Exit."
     STATUS_ROOM_CHANGE = "Room Changed"
     STATUS_GRABBED = "Item Grabbed."
-    STATUS_USED = "Item used."      #added used status
+    STATUS_USED = "Item used."     
     STATUS_THROW = "Item thrown."    
     STATUS_BAD_GRABS = "I can't grab that."
     STATUS_BAD_ITEM = "I don't see that."
-    STATUS_BAD_USE = "I can't use that."    #added bad use status
+    STATUS_BAD_USE = "I can't use that."    
     STATUS_BAD_THROW = "I can't throw that."
     
     WIDTH = 800
@@ -39,11 +24,11 @@ class Game(Frame):
     
     def __init__(self, parent) -> None:
         self.inventory = []
-        self.rooms = [] #added to be able to call upon rooms in other functions
+        self.rooms = [] 
         Frame.__init__(self,parent)
         self.pack(fill=BOTH, expand=1)
     
-    def setup_game(self):   #added self to these in order to be able to call upon them in other functions
+    def setup_game(self):  
         
         #create rooms
         self.r1 = Room("Room 1", "room1.gif")
@@ -53,7 +38,7 @@ class Game(Frame):
         self.basement = Room("Basement", "basement_pic.gif")
         self.rooms = [self.r1, self.r2, self.r3, self.r4, self.basement]
         
-        #add exits
+        #exits
         self.r1.add_exit("east", self.r2)
         self.r1.add_exit("south", self.r3)
         
@@ -67,11 +52,10 @@ class Game(Frame):
         self.r4.add_exit("north", self.r2)
         self.r4.add_exit("west", self.r3)
 
-        self.basement.add_exit("up", self.r3) #new, adds another exit
-        self.basement.add_exit("window", None) #new, allows to live!
+        self.basement.add_exit("up", self.r3) 
+        self.basement.add_exit("window", None) 
         
-        #add items
-        #item name and descriptions now call upon the item class in the Roomclass file
+        #items
         self.r1.add_item(chair.name, chair.description)
         self.r1.add_item(bigger_chair.name, bigger_chair.description)
         
@@ -89,7 +73,7 @@ class Game(Frame):
         self.basement.add_item(potato.name, potato.description) #new
         self.basement.add_item(windows.name, windows.description) #new
         
-        #add grabs to rooms
+        #grabs
         self.r1.add_grabs("key")
         
         self.r2.add_grabs("fire")
@@ -136,7 +120,7 @@ class Game(Frame):
         self.image_container.config(image=img)
         self.image_container.image = img 
         
-    def winner(self, image):    #added to create the winning image after you have successfully escaped
+    def winner(self, image):    #winning image after you have successfully escaped
         img = PhotoImage(file = image)
         self.image_container.config(image=img)
         self.image_container.image = img 
@@ -184,7 +168,7 @@ class Game(Frame):
             
         self.set_status(status)
             
-    def handle_use(self, item): #added to utilize a grabbable, in this case a rope, which is used to escape through window
+    def handle_use(self, item): #used for the rope, which is used to escape through window
         status = Game.STATUS_BAD_USE
         
         if item in self.inventory:
@@ -198,8 +182,7 @@ class Game(Frame):
         self.set_status(status)
         #self.set_room_image()
 
-    #new, sets the general message to an error unless a grab is in the inventory, 
-    #in which it puts the grab form the inventory into the current room 
+    #puts the grab form the inventory into the current room 
     def handle_throw(self, grab):
         status = Game.STATUS_BAD_THROW
         
@@ -251,13 +234,12 @@ class Game(Frame):
                 self.handle_take(grab = noun)
             
             case "use":
-                self.handle_use(item = noun)    #added to handle the match verb when use is called upon
+                self.handle_use(item = noun)   
 
-            #new, allows for the user to command "throw"
+            
             case "throw":
                 self.handle_throw(grab = noun)
                 
-            #default case: case_:
                
 #main loop 
 window = Tk()
