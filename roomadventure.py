@@ -63,12 +63,11 @@ class Game(Frame):
         self.r2.add_item(more_chairs.name, more_chairs.description)
         
         self.r3.add_item(desk.name, desk.description)
-        self.r3.add_item(dimsdale_dimmadome.name, dimsdale_dimmadome.description)
         self.r3.add_item(chair.name, chair.description)
         
         self.r4.add_item(croissant.name, croissant.description)
-        self.r4.add_item(your_mother.name, your_mother.description) #new
-        self.r4.add_item(pbj.name, pbj.description) #new (I'm allergic to PBJ :) )
+        self.r4.add_item(painting.name, painting.description) #new
+        self.r4.add_item(pbj.name, pbj.description) #new 
 
         self.basement.add_item(potato.name, potato.description) #new
         self.basement.add_item(windows.name, windows.description) #new
