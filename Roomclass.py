@@ -54,14 +54,13 @@ more_chairs = Item("more_chairs", "another chair named more")
 
 #room 3
 desk = Item("desk","It is made of wicker also")
-dimsdale_dimmadome = Item("dimsdale_dimmadome", "Owned by Doug zDimmadome, owner of Dimsdale Dimmadome.")
 chair = Item("chair", "the og chair")
 
 #room 4
 croissant = Item("croissant", "made of butter. No flour.")
-your_mother = Item("your_mother", "ur mom haha")
+painting = Item("painting", "a painting of fruit in a basket")
 pbj = Item("pbj", "blech peanut butter is disgusting... nutella >>>>")
 
 #room 5
-potato = Item("potato", "POTATOOOOOOOOOOOOOOOOOOOOO")
+potato = Item("potato", "POTATO")
 windows = Item("windows", "wow look!! windows!! is that... daylight?!?! imagine being outside... *cough cough*")
